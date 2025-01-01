@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .chart-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        textarea {
+            resize: none;
+        }
+        .highlight {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Plagiarism Checker</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="query" class="form-label">Enter Text to Check:</label>
+                <textarea id="query" name="query" rows="5" class="form-control">{{ query }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="threshold" class="form-label">Set Similarity Threshold (%):</label>
+                <input type="number" id="threshold" name="threshold" class="form-control" placeholder="50" value="50" min="0" max="100">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Check Plagiarism</button>
+            </div>
+        </form>
+
+        <h2 class="text-center mt-4">Results</h2>
+        {% if output %}
+        <div class="alert alert-info" role="alert">
+            {{ output | safe }}
+        </div>
+        {% endif %}
+
+        {% if report %}
+        <div class="mb-3">
+            <h4>Detailed Report:</h4>
+            <pre>{{ report }}</pre>
+        </div>
+        {% endif %}
+
+        {% if details %}
+        <div class="mb-3">
+            <h4>Highlighted Matches:</h4>
+            <pre>{{ details }}</pre>
+        </div>
+        {% endif %}
+
+        {% if chart_data %}
+        <div class="chart-container">
+            <h4>Similarity Chart:</h4>
+            <img src="data:image/png;base64,{{ chart_data }}" alt="Similarity Chart">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
